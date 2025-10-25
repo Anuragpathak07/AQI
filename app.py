@@ -366,7 +366,6 @@ def main():
     # Header
     st.markdown('<h1 class="main-title">Air Quality Forecast</h1>', unsafe_allow_html=True)
     st.markdown('<p class="subtitle">Real-time monitoring and 7-day forecast for Nagpur, Maharashtra</p>', unsafe_allow_html=True)
-    st.markdown('<p class="live-indicator">🟢 Live data from Government monitoring stations</p>', unsafe_allow_html=True)
     
     # Date selector
     col1, col2, col3 = st.columns([1, 2, 1])
