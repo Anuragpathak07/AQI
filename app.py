@@ -189,6 +189,12 @@ st.markdown("""
         justify-content: center;
     }
     
+    /* Date input label color */
+    .stDateInput label {
+        color: #1e293b !important;
+        font-weight: 600 !important;
+    }
+    
     /* Custom scrollbar */
     ::-webkit-scrollbar {
         width: 8px;
@@ -447,11 +453,13 @@ def main():
     # Date selector
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
+        st.markdown('<p style="text-align: center; color: #1e293b; font-weight: 600; margin-bottom: 0.5rem;">📅 Select Start Date</p>', unsafe_allow_html=True)
         selected_date = st.date_input(
-            "📅 Select Start Date",
+            "Select Start Date",
             value=datetime.now(),
             min_value=datetime(2020, 1, 1),
-            max_value=datetime.now() + timedelta(days=365)
+            max_value=datetime.now() + timedelta(days=365),
+            label_visibility="collapsed"
         )
     
     st.markdown("<br>", unsafe_allow_html=True)
