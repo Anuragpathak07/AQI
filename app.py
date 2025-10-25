@@ -27,100 +27,156 @@ st.set_page_config(
 # ======================== CUSTOM CSS ========================
 st.markdown("""
 <style>
+    /* Light mode color scheme */
+    .stApp {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8f0f7 100%);
+    }
+    
     /* Main title styling */
     .main-title {
-        font-size: 4rem;
-        font-weight: 700;
-        color: #5DADE2;
+        font-size: 3.5rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         text-align: center;
         margin-bottom: 0;
         line-height: 1.2;
     }
     
     .subtitle {
-        font-size: 1.2rem;
-        color: #7F8C8D;
+        font-size: 1.15rem;
+        color: #64748b;
         text-align: center;
         margin-top: 10px;
         margin-bottom: 30px;
-    }
-    
-    .live-indicator {
-        color: #27AE60;
-        font-size: 0.95rem;
-        text-align: center;
-        margin-bottom: 20px;
+        font-weight: 500;
     }
     
     /* AQI Card Styling */
     .aqi-card {
         background: white;
-        border-radius: 15px;
-        padding: 30px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08);
         text-align: center;
         margin: 20px 0;
+        border: 1px solid rgba(0,0,0,0.05);
     }
     
     .aqi-value {
-        font-size: 4rem;
-        font-weight: 700;
+        font-size: 5rem;
+        font-weight: 800;
         margin: 20px 0;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     
     .aqi-category {
-        font-size: 1.5rem;
-        font-weight: 600;
+        font-size: 1.8rem;
+        font-weight: 700;
         margin: 10px 0;
     }
     
     .dominant-pollutant {
         font-size: 1.1rem;
-        color: #7F8C8D;
-        margin-top: 10px;
+        color: #64748b;
+        margin-top: 15px;
+        font-weight: 500;
     }
     
     /* Pollutant card styling */
     .pollutant-card {
-        background: #F8F9FA;
-        border-radius: 10px;
-        padding: 20px;
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
         margin: 10px 0;
-        border-left: 4px solid #5DADE2;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        border-left: 5px solid #667eea;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .pollutant-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
     }
     
     .pollutant-name {
+        font-size: 0.85rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 600;
+    }
+    
+    .pollutant-value {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin: 8px 0;
+    }
+    
+    .pollutant-unit {
         font-size: 0.9rem;
-        color: #7F8C8D;
+        color: #94a3b8;
+        font-weight: 500;
+    }
+    
+    /* Forecast card styling */
+    .forecast-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        border: 1px solid rgba(0,0,0,0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
+    }
+    
+    .forecast-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+    
+    .forecast-date {
+        font-size: 0.85rem;
+        color: #64748b;
+        font-weight: 600;
+        margin-bottom: 10px;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
     
-    .pollutant-value {
+    .forecast-aqi {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 10px 0;
+    }
+    
+    .forecast-category {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-top: 8px;
+    }
+    
+    /* Section header */
+    .section-header {
         font-size: 2rem;
         font-weight: 700;
-        color: #2C3E50;
-        margin: 5px 0;
-    }
-    
-    .pollutant-unit {
-        font-size: 0.85rem;
-        color: #95A5A6;
-    }
-    
-    /* Forecast table styling */
-    .forecast-table {
-        margin-top: 30px;
+        color: #1e293b;
+        margin: 40px 0 25px 0;
+        text-align: center;
     }
     
     /* Error message styling */
     .error-box {
-        background: #FADBD8;
-        border: 1px solid #E74C3C;
-        border-radius: 8px;
-        padding: 15px;
-        color: #C0392B;
+        background: #fee;
+        border: 2px solid #f87171;
+        border-radius: 12px;
+        padding: 20px;
+        color: #b91c1c;
         margin: 20px 0;
+        font-weight: 500;
     }
     
     /* Hide Streamlit branding */
@@ -131,6 +187,25 @@ st.markdown("""
     .stDateInput {
         display: flex;
         justify-content: center;
+    }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -208,12 +283,12 @@ def compute_aqi(row):
 
 def get_aqi_color(aqi):
     """Get color based on AQI value."""
-    if aqi <= 50: return '#27AE60'  # Good - Green
-    elif aqi <= 100: return '#F39C12'  # Satisfactory - Yellow
-    elif aqi <= 200: return '#E67E22'  # Moderate - Orange
-    elif aqi <= 300: return '#E74C3C'  # Poor - Red
-    elif aqi <= 400: return '#8E44AD'  # Very Poor - Purple
-    else: return '#2C3E50'  # Severe - Black
+    if aqi <= 50: return '#10b981'  # Good - Green
+    elif aqi <= 100: return '#f59e0b'  # Satisfactory - Amber
+    elif aqi <= 200: return '#f97316'  # Moderate - Orange
+    elif aqi <= 300: return '#ef4444'  # Poor - Red
+    elif aqi <= 400: return '#a855f7'  # Very Poor - Purple
+    else: return '#1e293b'  # Severe - Dark
 
 def get_aqi_category(aqi):
     """Get AQI category with emoji."""
@@ -364,14 +439,16 @@ def predict_forecast(start_date, days, models, metadata, historical_data):
 # ======================== MAIN APP ========================
 def main():
     # Header
-    st.markdown('<h1 class="main-title">Air Quality Forecast</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="subtitle">Real-time monitoring and 7-day forecast for Nagpur, Maharashtra</p>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-title">🌫️ AirCast</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="subtitle">Real-time Air Quality Monitoring & Forecast • Nagpur, Maharashtra</p>', unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
     
     # Date selector
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         selected_date = st.date_input(
-            "Select Date:",
+            "📅 Select Start Date",
             value=datetime.now(),
             min_value=datetime(2020, 1, 1),
             max_value=datetime.now() + timedelta(days=365)
@@ -385,11 +462,11 @@ def main():
         historical_data = load_historical_data()
         
         if models is None or metadata is None:
-            st.markdown('<div class="error-box">⚠️ apiService is not defined - Unable to load models. Please ensure training has been completed.</div>', unsafe_allow_html=True)
+            st.markdown('<div class="error-box">⚠️ Unable to load models. Please ensure training has been completed and model files exist.</div>', unsafe_allow_html=True)
             return
         
         # Generate predictions
-        with st.spinner('Generating forecast...'):
+        with st.spinner('🔄 Generating forecast...'):
             forecast_df = predict_forecast(selected_date, 7, models, metadata, historical_data)
         
         # Display current day AQI
@@ -401,17 +478,17 @@ def main():
         with col2:
             st.markdown(f"""
             <div class="aqi-card">
-                <div style="font-size: 1.2rem; color: #7F8C8D;">AQI</div>
+                <div style="font-size: 1.1rem; color: #94a3b8; font-weight: 600; letter-spacing: 1px;">CURRENT AIR QUALITY INDEX</div>
                 <div class="aqi-value" style="color: {aqi_color};">{int(aqi_value)}</div>
                 <div class="aqi-category" style="color: {aqi_color};">{current_aqi['Category']}</div>
-                <div class="dominant-pollutant">Dominant Pollutant: {current_aqi['Dominant']}</div>
+                <div class="dominant-pollutant">Primary Pollutant: {current_aqi['Dominant']}</div>
             </div>
             """, unsafe_allow_html=True)
         
         st.markdown("<br>", unsafe_allow_html=True)
         
         # Display individual pollutants
-        st.subheader("Current Pollutant Levels")
+        st.markdown('<div class="section-header">💨 Current Pollutant Levels</div>', unsafe_allow_html=True)
         cols = st.columns(3)
         for idx, pollutant in enumerate(TARGETS):
             with cols[idx % 3]:
@@ -427,59 +504,86 @@ def main():
         st.markdown("<br><br>", unsafe_allow_html=True)
         
         # 7-Day Forecast Section
-        st.markdown("---")
-        st.subheader("7-Day Forecast")
+        st.markdown('<div class="section-header">📊 7-Day AQI Forecast</div>', unsafe_allow_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # Forecast cards in a row
+        cols = st.columns(7)
+        for idx, (date, row) in enumerate(forecast_df.iterrows()):
+            with cols[idx]:
+                aqi = int(row['AQI'])
+                color = get_aqi_color(aqi)
+                day_name = date.strftime('%a')
+                date_str = date.strftime('%m/%d')
+                
+                st.markdown(f"""
+                <div class="forecast-card">
+                    <div class="forecast-date">{day_name}</div>
+                    <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 10px;">{date_str}</div>
+                    <div class="forecast-aqi" style="color: {color};">{aqi}</div>
+                    <div class="forecast-category" style="color: {color}; font-size: 0.8rem;">{row['Category'].split()[0]}</div>
+                </div>
+                """, unsafe_allow_html=True)
+        
+        st.markdown("<br><br>", unsafe_allow_html=True)
         
         # AQI trend chart
         fig = go.Figure()
+        
+        # Add area fill
+        fig.add_trace(go.Scatter(
+            x=forecast_df.index,
+            y=forecast_df['AQI'],
+            fill='tozeroy',
+            fillcolor='rgba(102, 126, 234, 0.1)',
+            line=dict(color='rgba(102, 126, 234, 0)', width=0),
+            showlegend=False,
+            hoverinfo='skip'
+        ))
+        
+        # Add main line
         fig.add_trace(go.Scatter(
             x=forecast_df.index,
             y=forecast_df['AQI'],
             mode='lines+markers',
-            line=dict(color='#5DADE2', width=3),
-            marker=dict(size=10, color=forecast_df['AQI'].apply(get_aqi_color)),
-            name='AQI'
+            line=dict(color='#667eea', width=4),
+            marker=dict(
+                size=12, 
+                color=forecast_df['AQI'].apply(get_aqi_color),
+                line=dict(color='white', width=2)
+            ),
+            name='AQI',
+            hovertemplate='<b>%{x|%B %d, %Y}</b><br>AQI: %{y}<extra></extra>'
         ))
         
         fig.update_layout(
-            title="AQI Trend",
+            title={
+                'text': "Air Quality Index Trend",
+                'font': {'size': 20, 'color': '#1e293b', 'family': 'Arial, sans-serif'}
+            },
             xaxis_title="Date",
             yaxis_title="AQI Value",
-            height=400,
+            height=450,
             hovermode='x unified',
             plot_bgcolor='white',
-            paper_bgcolor='white'
+            paper_bgcolor='white',
+            font=dict(family="Arial, sans-serif", color='#64748b'),
+            xaxis=dict(
+                showgrid=True,
+                gridcolor='#f1f5f9',
+                showline=True,
+                linecolor='#e2e8f0'
+            ),
+            yaxis=dict(
+                showgrid=True,
+                gridcolor='#f1f5f9',
+                showline=True,
+                linecolor='#e2e8f0'
+            ),
+            margin=dict(l=40, r=40, t=60, b=40)
         )
         
         st.plotly_chart(fig, use_container_width=True)
-        
-        # Forecast table
-        st.markdown("### Detailed Forecast")
-        display_df = forecast_df.reset_index()
-        display_df['date'] = display_df['date'].dt.strftime('%Y-%m-%d')
-        display_df = display_df[['date'] + TARGETS + ['AQI', 'Dominant', 'Category']]
-        
-        # Round pollutant values
-        for col in TARGETS:
-            display_df[col] = display_df[col].round(2)
-        
-        st.dataframe(
-            display_df,
-            use_container_width=True,
-            hide_index=True,
-            column_config={
-                "date": "Date",
-                "pm2.5": "PM2.5 (µg/m³)",
-                "pm10": "PM10 (µg/m³)",
-                "no2": "NO₂ (µg/m³)",
-                "so2": "SO₂ (µg/m³)",
-                "co": "CO (mg/m³)",
-                "ozone": "Ozone (µg/m³)",
-                "AQI": "AQI",
-                "Dominant": "Dominant Pollutant",
-                "Category": "Air Quality"
-            }
-        )
         
     except Exception as e:
         st.markdown(f'<div class="error-box">⚠️ Unable to load forecast data. Please try again later.<br><br>Error: {str(e)}</div>', unsafe_allow_html=True)
