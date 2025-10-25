@@ -9,6 +9,9 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 from datetime import datetime, timedelta
+# Add this near the top of app.py with other imports
+from lightgbm import LGBMRegressor
+from xgboost import XGBRegressor
 import joblib
 import warnings
 warnings.filterwarnings("ignore")
